@@ -8,7 +8,7 @@
 # leaseBound         1 = lease bound, 0 = lease removed
 # leaseServerName    Name of DHCP server
 # leaseActIP         IP address of DHCP client
-#leaseActMAC      MAC address of DHCP client
+# leaseActMAC        MAC address of DHCP client
 ###
 
 # "a.b.c.d" -> "a-b-c-d" for IP addresses used as replacement for missing host names
@@ -73,13 +73,13 @@
   /ip dhcp-server
   #:local dnsttl [ get [ find name=$leaseServerName ] lease-time ]
   network
-  :local domain [ get [ find $leaseActIP in address ] domain ]
+  :local domain [ get [ :pick [ find $leaseActIP in address ] 0 ] domain ]
   #:log info "$LogPrefix: DNS domain is $domain"
 
   :local hostname [/ip dhcp-server lease get [:pick [find mac-address=$leaseActMAC and server=$leaseServerName] 0] value-name=host-name]
   #:log info "$LogPrefix: DHCP hostname is $hostname"
 
- #Hostname cleanup
+  #Hostname cleanup
   :if ( [ :len $hostname ] <= 0 ) do=\
   {
     :set hostname [ $ip2Host inStr=$leaseActIP ]

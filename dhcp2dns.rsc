@@ -95,7 +95,7 @@
       :log warning "$LogPrefix: Conflicting entry for $fqdn already exists, not updating"
     }
   } else={
-    :local placeholderComment "--- dhcp2dns above ---"
+    :local placeholderComment "--- $leaseServerName dhcp2dns above ---"
     :if ( [ :len [ find comment=$placeholderComment ] ] = 0 ) do={
       add comment=$placeholderComment name=- type=NXDOMAIN disabled=yes
     }
